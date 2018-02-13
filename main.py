@@ -1,10 +1,11 @@
-from src import Manager
-from src import utils
-from src import Node
-from src import Token
-from src import variableNotFoundException
-run_str='''
-(define pi 3)
+from pyLisch import node
+from pyLisch.program import Program
+programStr='''
+(define pi 4) 
 (+ pi 3)
 '''
-Manager.run(run_str)
+program=Program(programStr)
+
+for i in program.run():
+    print(i)
+

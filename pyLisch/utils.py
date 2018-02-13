@@ -1,14 +1,6 @@
-from enum import Enum
 import re
-class T_type(Enum):
-    root=1
-    oper=2
-    denf=3
-    var=4
-    prim=5
 def split_str_to_list(string):
-    string=string.strip(" \n\t")
-    string=re.sub(" +"," ",string)
+    string=strip_str(string)
     if("(" not in string):
         return string.split()
     res_list=[]
@@ -33,5 +25,5 @@ def split_str_to_list(string):
     assert(bracket_counter==0)
     return res_list
 def strip_str(string):
-    return string.strip(" \n\t").replace("\n"," ")
+    return re.sub(" +"," ",string.strip(" \n\t").replace("\n"," "))
     
