@@ -1,41 +1,52 @@
 from pyLisch.utils import split_str_to_list
 class Node:
-	def __init__(self,value,program):#
+	def __init__(self,value):#
 		self.value=value
+		self.eval_value=None
 		self.child_list=[]
-		self.program=program
 	def __len__(self):
 		return len(self.child_list)
-	def eval_node(self):
-		return self.program.eval_node(self)
 	def __str__(self):
 		return str(self.value)	
 	def add_child(self,node):
-		self.child_list.append(node)
+		if (not node):
+			return
+		if(isinstance(node,list)):
+			self.child_list+=node
+		else:
+			self.child_list.append(node)
 	def isValidNode(string):
 		raise NotImplementedError()
-	def buildNode(name,program):#single token
-		if PrimNode.isValidNode(name):
-			return PrimNode(name,program)
-		elif OperNode.isValidNode(name):
-			return OperNode(name,program)
+	def buildNode(value):#single token
+		if PrimNode.isValidNode(value):
+			return PrimNode(value)
+		elif OperNode.isValidNode(value):
+			return OperNode(value)
 		else:
-			return Node(name,program)
-	def buildTree(string,program):
+			return Node(value)
+	def buildTree(string):
 		if (" " not in string):
-			node=Node.buildNode(string,program)
+			node=Node.buildNode(string)
 			return node
 		str_list=split_str_to_list(string)
-		temp_node=Node.buildNode(str_list[0],program)
+		temp_node=Node.buildNode(str_list[0])
 		for substr in str_list[1:]:
-			temp_node.add_child(Node.buildTree(substr,program))
+			temp_node.add_child(Node.buildTree(substr))
 		return temp_node
-			
+	def eval_node(self):
+		return self.program.eval_node(self)
+	def copyTree(self,ctx):
+		'''
+		copy every single nodes in the tree
+		'''
+		new_root=Node.buildNode(self.value)
+		new_root.add_child([i.copyTree(ctx) for i in self.child_list])
+		return self
+	
 class PrimNode(Node):
-	def __init__(self,value,program):
+	def __init__(self,value):
 		self.value=int(value)
 		self.child_list=[]
-		self.program=program
 	def eval_node(self):
 		return self.value
 	def isValidNode(string):
@@ -47,8 +58,8 @@ class PrimNode(Node):
 	
 class OperNode(Node):
 	definedList=["+","*"]
-	def __init__(self,value,program):
-		super().__init__(value,program)
+	def __init__(self,value):
+		super().__init__(value)
 	def eval_node(self):
 		if(self.value=="+"):
 			return sum([x.eval_node() for x in self.child_list])
