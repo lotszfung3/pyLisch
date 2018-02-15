@@ -32,24 +32,45 @@ class Program:
 				assert len(arg_list)==len(defNode.child_list[1])
 				new_node=defNode.child_list[1].copyTree()# OperNode:*
 		return new_node
-	def replace_node(self,node,ctx):
-		'''
-		node [OperNode:*] with two child Node of value x
-		ctx: ["x":3]
-		output: [OperNode:*] with two child Node of value 3
-		'''
-		for i,n in enumerate(node.child_list):
-			pass
-		
+	
+	
 	def isPrimnode(self,node):
 		try: 
 			int(node.value)
 			return True
 		except ValueError:
 			return False
+		
+	def replace_node(self,node,arg_list):
+		'''
+		node [OperNode:*] with two child Node of value x
+		ctx: ["x":3]
+		output: [OperNode:*] with two child Node of value 3
+		'''
+		if node.value in arg_list:
+			node.value = arg_list[node.value]
+		
+		if len(node.child_list) == 0:
+			return node
+			
+		tempNode = Node(node.value)
+		for child in node.child_list:
+			tempNode.child_list.append(self.replace_node(child, arg_list))
+		return tempNode
+		
+			
+	def eval_func(self,fun_name,args):
+		fun_args , fun_node = self.def_list[fun_name]
+		assert(len(fun_args) == len(args))
+		arg_list = {}
+		for i in range(len(fun_args)):
+			arg_list[fun_args[i].value] = self.eval_node(args[i])
+		
+		f = self.replace_node(fun_node, arg_list)
+		return self.eval_node(f)
+		
 	
 	def eval_node(self,node):
-		print (node.value)
 		if self.isPrimnode(node):
 			return int(node.value)
 			
@@ -64,22 +85,18 @@ class Program:
 				
 		elif node.value in keywords:
 			if node.value == "define":
-				if node.value in self.def_list:
-					raise "Redefinition???"
-				self.def_list[node.child_list[0].value] = node.child_list[1]
+				assert (node.child_list[0].value not in self.def_list)
+				self.def_list[node.child_list[0].value] = (node.child_list[0].child_list, node.child_list[1])
+				return
 				
 		else:
-			if node.value in self.def_list:
+			assert (node.value in self.def_list)
+			if len(node.child_list) == 0:
 				return self.eval_node(self.def_list[node.value])
+			return self.eval_func(node.value, node.child_list)	
 			
 			
 			
-			
-		'''
-		elif node.value in self.def_list:
-			return self.def_list[node.value]child_list[1].eval_node()
-		assert(False)   
-		'''
 		
 	def run(self):
 		for node in self.eval_list:

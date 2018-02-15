@@ -10,7 +10,9 @@ class Node:
 	def __len__(self):
 		return len(self.child_list)
 	def __str__(self):
-		return str(self.value)	
+		return str(self.value)
+
+		
 	def add_child(self,node):
 		self.child_list.append(node)
 	def isValidNode(string):
@@ -34,6 +36,7 @@ class Node:
 		for substr in str_list[1:]:
 			temp_node.add_child(Node.buildTree(substr))
 		return temp_node
+	
 '''
 def eval_node(self):
 return 0
