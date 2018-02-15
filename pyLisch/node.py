@@ -1,4 +1,7 @@
 from pyLisch.utils import split_str_to_list
+
+
+
 class Node:
 	def __init__(self,value):#
 		self.value=value
@@ -9,19 +12,17 @@ class Node:
 	def __str__(self):
 		return str(self.value)	
 	def add_child(self,node):
-		if (not node):
-			return
-		if(isinstance(node,list)):
-			self.child_list+=node
-		else:
-			self.child_list.append(node)
+		self.child_list.append(node)
 	def isValidNode(string):
 		raise NotImplementedError()
 	def buildNode(value):#single token
+		return Node(value)
 		if PrimNode.isValidNode(value):
 			return PrimNode(value)
 		elif OperNode.isValidNode(value):
 			return OperNode(value)
+		elif KeywordNode.isValidNode(value):
+			return KeywordNode(value)
 		else:
 			return Node(value)
 	def buildTree(string):
@@ -33,16 +34,22 @@ class Node:
 		for substr in str_list[1:]:
 			temp_node.add_child(Node.buildTree(substr))
 		return temp_node
-	def eval_node(self):
-		return self.program.eval_node(self)
-	def copyTree(self,ctx):
-		'''
-		copy every single nodes in the tree
-		'''
-		new_root=Node.buildNode(self.value)
-		new_root.add_child([i.copyTree(ctx) for i in self.child_list])
-		return self
-	
+'''
+def eval_node(self):
+return 0
+def copyTree(self,ctx):
+'''
+'''
+copy every single nodes in the tree
+'''
+'''
+new_root=Node.buildNode(self.value)
+new_root.add_child([i.copyTree(ctx) for i in self.child_list])
+return self
+'''
+
+'''
+
 class PrimNode(Node):
 	def __init__(self,value):
 		self.value=int(value)
@@ -57,7 +64,6 @@ class PrimNode(Node):
 			return False
 	
 class OperNode(Node):
-	definedList=["+","*"]
 	def __init__(self,value):
 		super().__init__(value)
 	def eval_node(self):
@@ -69,4 +75,5 @@ class OperNode(Node):
 				tempPro*=child.eval_node()
 			return tempPro
 	def isValidNode(string):
-		return string in OperNode.definedList
+		return string in operators
+'''

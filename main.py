@@ -1,18 +1,14 @@
 from pyLisch import node
 from pyLisch.program import Program
 programStr='''
-(define pi 4)
-(+ pi 3)
+(define (square x) (* x x) )
+(define pi 3)
+(+ pi 1)
 '''
+
+
 program=Program(programStr)
 
 for i in program.run():
 	print(i)
 
-
-'''
-(define pi 4)
-
-
-
-'''
