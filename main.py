@@ -1,9 +1,18 @@
-from pyLisch import Node
+from pyLisch import node
 from pyLisch.program import Program
 programStr='''
+(define pi 4)
 (+ pi 3)
 '''
-node=Node.buildTree(programStr)
-new_node=node.copyTree()
+program=Program(programStr)
+
+for i in program.run():
+	print(i)
 
 
+'''
+(define pi 4)
+
+
+
+'''
