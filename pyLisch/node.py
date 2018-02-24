@@ -28,14 +28,27 @@ class Node:
 		else:
 			return Node(value)
 	def buildTree(string):
-		if (" " not in string):
+		if " " not in string:
 			node=Node.buildNode(string)
 			return node
 		str_list=split_str_to_list(string)
-		temp_node=Node.buildNode(str_list[0])
+		#print (str_list)
+		temp_node=Node.buildTree(str_list[0])
 		for substr in str_list[1:]:
-			temp_node.add_child(Node.buildTree(substr))
+			if '(' in substr:
+				c = split_str_to_list(substr)
+			else:
+				c = [substr]
+			for x in c:
+				temp_node.add_child(Node.buildTree(x))
 		return temp_node
+	
+	def copy(self):
+		new_node = Node(self.value)
+		for child in self.child_list:
+			new_node.child_list.append(child.copy())
+		return new_node
+		
 	
 '''
 def eval_node(self):
