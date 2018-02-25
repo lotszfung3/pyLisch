@@ -30,6 +30,13 @@ class TestDefine(unittest.TestCase):
 		(product_ 3 4)
 		'''
 		self.assertEqual(next(Program(string).run()),12)
+	def test_nested_funct(self):
+		string='''
+		(define get2
+		(define (plus1 y)(+ 1 y))
+		( plus1 1 ))
+		(get2)'''
+		self.assertEqual(next(Program(string).run()),2)
 class TestUtil(unittest.TestCase):
 	def test_strange_brackets_indent(self):
 		string='''

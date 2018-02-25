@@ -16,7 +16,7 @@ class Program:
 			self.global_table = SymbolTable()
 		#add all global function to global_table
 		for node in self.def_list:
-			self.global_table[node.child_list[0].value] = (node.child_list[0].child_list,node.child_list[1])
+			self.global_table[node.child_list[0].value] = (node.child_list[0].child_list,node.child_list[1:])
 	
 		
 	def replace_node(self,node,arg_list):
@@ -25,6 +25,7 @@ class Program:
 		ctx: ["x":3]
 		output: [OperNode:*] with two child Node of value 3
 		'''
+		assert(False)
 		if node.value in arg_list:
 			node.value = arg_list[node.value]
 		
@@ -53,11 +54,15 @@ class Program:
 		fun_args , fun_body = table[node.value]
 		## Build a dict for each arguments in order to replace node in function body
 		#assert(len(fun_args) == len(fun_node.child_list[0]))
-		arg_list = {}
 		for (i,args) in enumerate(fun_args):
 			local_table[args.value] = self.eval_node(node.child_list[i], self.global_table)
-		return self.eval_node(fun_body.copy(), local_table)
-		
+		for fun_b in fun_body:
+			if(fun_b.value=="define"):#local functions, register the function
+				
+				local_table[fun_b.child_list[0].value]=(fun_b.child_list[0].child_list,fun_b.child_list[1:])
+			else:
+				return self.eval_node(fun_b.copy(), local_table)
+		assert(False)
 	
 	def eval_node(self,node, table):
 		'''
