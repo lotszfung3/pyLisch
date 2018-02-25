@@ -5,6 +5,11 @@ A minimal compiler written in Python to imitate the Lisp language. Aims to learn
 3. Replace The nodes with variable recursively until the whole tree only consist of primitive operation
 4. Evaluate the root and return the value
 
+## Notes:
+- Use unittest to test some developed functionalities to avoid breaking previous parts
+```
+python -m unittest
+```
 
 ## Few examples (Cases needed to be considered when developing)
 - Basic operaters

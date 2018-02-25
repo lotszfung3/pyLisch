@@ -1,8 +1,15 @@
 class SymbolTable:
+	'''
+	dicts of tuples in the variable looking-up table
+	'''
 	def __init__(self, prev=None):
 		self.prev = prev
 		self.curr = {}
-	
+	def __str__(self):
+		ans=""
+		for i in self.curr:
+			ans+=(str(i)+"\n") if i else ""
+		return ans
 	def __contains__(self, key):
 		return self[key] is not None
 	
