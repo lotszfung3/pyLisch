@@ -26,19 +26,13 @@ class Node:
 		else:
 			return Node(value)
 	def buildTree(string):
-		if " " not in string:
+		if (" " not in string):
 			node=Node.buildNode(string)
 			return node
 		str_list=split_str_to_list(string)
-		#print (str_list)
-		temp_node=Node.buildTree(str_list[0])
+		temp_node=Node.buildNode(str_list[0])
 		for substr in str_list[1:]:
-			if '(' in substr:
-				c = split_str_to_list(substr)
-			else:
-				c = [substr]
-			for x in c:
-				temp_node.add_child(Node.buildTree(x))
+			temp_node.add_child(Node.buildTree(substr))
 		return temp_node
 	
 	def copy(self):

@@ -1,13 +1,14 @@
 from pyLisch import node
 from pyLisch.program import Program
 programStr='''
-(if (< 3 (+ 5 4)) 5 4)
+(define (get2)
+((define ( plus1 y)(+ 1 y))
+(plus1 1 )))
+(get2)
 '''
 
 program=Program(programStr)
-for i in program.eval_list[0].child_list:
-	print(i)
 for i in program.run():
 	if i:
-		print("Ans:",i)
+		print(i)
 

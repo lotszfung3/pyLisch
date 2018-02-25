@@ -4,9 +4,9 @@ from pyLisch.SymbolTable import SymbolTable
 
 
 class Program:
-	eval_list=[]
-	def_list=[]
 	def __init__(self,string):
+		self.eval_list=[]
+		self.def_list=[]
 		for substr in split_str_to_list(string):
 			node=Node.buildTree(substr)
 			if(node.value=="define"):
