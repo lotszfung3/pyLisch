@@ -17,8 +17,7 @@ class Program:
 		#add all global function to global_table
 		for node in self.def_list:
 			self.global_table[node.child_list[0].value] = (node.child_list[0].child_list,node.child_list[1:])
-	
-		
+
 	def replace_node(self,node,arg_list):
 		'''
 		node [OperNode:*] with two child Node of value x
@@ -49,7 +48,6 @@ class Program:
 		'''
 		## local-level symbol table		
 		local_table = SymbolTable(table)
-
 		## Get the function arguments (x,y,z,...) and function body
 		fun_args , fun_body = table[node.value]
 		## Build a dict for each arguments in order to replace node in function body

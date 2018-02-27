@@ -1,6 +1,6 @@
 from pyLisch.utils import split_str_to_list
 
-operators=["+","*","-","if","<"]
+operators=["+","*","-","if","<","="]
 
 class Node:
 	def __init__(self,value):#
@@ -40,6 +40,9 @@ class Node:
 		for child in self.child_list:
 			new_node.child_list.append(child.copy())
 		return new_node
+
+			
+
 		
 	
 class PrimNode(Node):
@@ -52,7 +55,8 @@ class PrimNode(Node):
 	def eval_node(self):
 		return self.value
 	def isValidNode(string):
-		return string.replace(".","",1).isdigit()
+		temp_string=string.replace(".","",1)
+		return temp_string.isdigit() or (temp_string[0]=='-' and temp_string[1:].isdigit())
 	
 class OperNode(Node):
 	def __init__(self,value):
@@ -76,6 +80,9 @@ class OperNode(Node):
 		elif(self.value=="<"):
 			assert(len(eval_ans)==2)
 			return eval_ans[0]<eval_ans[1]
+		elif(self.value=="="):
+			assert(len(eval_ans)==2)
+			return eval_ans[0]==eval_ans[1]
 		raise NotImplementedError
 	def isValidNode(string):
 		return string in operators

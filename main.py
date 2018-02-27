@@ -1,10 +1,9 @@
 from pyLisch import node
 from pyLisch.program import Program
 programStr='''
-(define get2
-(define (plus1 y)(+ 1 y))
-( plus1 1 ))
-(get2)
+(define (fact x) 
+(if (= x 1) 1 (* x (fact (- x 1)))))
+(fact 1)
 '''
 
 program=Program(programStr)

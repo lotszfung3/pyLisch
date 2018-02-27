@@ -37,6 +37,18 @@ class TestDefine(unittest.TestCase):
 		( plus1 1 ))
 		(get2)'''
 		self.assertEqual(next(Program(string).run()),2)
+	def test_neg_compare_funct(self):
+		string='''
+		(define (Pos x) (if (< 0 x) 1 -1))
+		(Pos -1)
+		'''
+		self.assertEqual(next(Program(string).run()),-1)
+	def test_nested_if_funct(self):
+		string='''
+		(define (comp x)(if (= x 1) (5) (if (= x 2) 3 4)))
+		(comp 2)
+		'''
+		self.assertEqual(next(Program(string).run()),3)
 class TestUtil(unittest.TestCase):
 	def test_strange_brackets_indent(self):
 		string='''
