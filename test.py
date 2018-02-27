@@ -49,6 +49,12 @@ class TestDefine(unittest.TestCase):
 		(comp 2)
 		'''
 		self.assertEqual(next(Program(string).run()),3)
+	def test_recursion_funct(self):
+		string='''
+		(define (fact x) (if (= x 1) 1 (* x (fact (- x 1)))))
+		(fact 4)
+		'''
+		self.assertEqual(next(Program(string).run()),24)
 class TestUtil(unittest.TestCase):
 	def test_strange_brackets_indent(self):
 		string='''
