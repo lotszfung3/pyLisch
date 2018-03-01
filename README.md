@@ -18,13 +18,12 @@ python -m unittest
 ```
 - Simple function
 ```
-(define (square x) (* x x) )
-(square 3) //9
+(define (square x) (* x x) )(square 3) //9
 ```
 - Closure
 ```
 (define (addxFunc x) 
-(lambda y (+ x y))
+(lambda y) (+ x y)
 )
 ((addXFunc 3) (5)) //8
 ```

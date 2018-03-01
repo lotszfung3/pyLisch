@@ -11,13 +11,15 @@ class TestOperator(unittest.TestCase):
 	def test_nested_if(self):
 		string="(if (< 5 (* 3 2)) 5 6)"
 		self.assertEqual(next(Program(string).run()),5)
+		
+		
 class TestDefine(unittest.TestCase):
 	def test_constant(self):
 		string='''
 		(define pi 3.14)
 		(+ pi 4)
 		'''
-		self.assertEqual(next(Program(string).run()),'7.14')
+		self.assertEqual(next(Program(string).run()),7.14)
 	def test_functions(self):
 		string='''
 		(define (square x)(* x x))
@@ -32,7 +34,7 @@ class TestDefine(unittest.TestCase):
 		self.assertEqual(next(Program(string).run()),12)
 	def test_nested_funct(self):
 		string='''
-		(define get2
+		(define (get2)
 		(define (plus1 y)(+ 1 y))
 		( plus1 1 ))
 		(get2)'''
@@ -49,12 +51,32 @@ class TestDefine(unittest.TestCase):
 		(comp 2)
 		'''
 		self.assertEqual(next(Program(string).run()),3)
+	def test_if_funct(self):
+		string='''
+		(define (comp x)
+			(if (= x 1) 1)
+			(if (= x 2) 2)
+			(if (= x 3) 3)
+		)
+		(comp 3)
+		'''
+		self.assertEqual(next(Program(string).run()),3)
 	def test_recursion_funct(self):
 		string='''
 		(define (fact x) (if (= x 1) 1 (* x (fact (- x 1)))))
 		(fact 4)
 		'''
 		self.assertEqual(next(Program(string).run()),24)
+	"""def test_func_as_args(self):
+		string='''
+			(define (f x) (+ x x))
+			(define (g x) (* x x))
+			(define (ff f  g x) (f (g x)))
+			(ff f g 3)
+		'''
+		self.assertEqual(next(Program(string).run()),18)
+	"""
+	
 class TestUtil(unittest.TestCase):
 	def test_strange_brackets_indent(self):
 		string='''
