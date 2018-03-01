@@ -65,13 +65,21 @@ class Node:
 				local_env = SymbolTable(env)
 				## Get the function arguments (x,y,z,...) and function body
 				fun_args , fun_body = env[self.value]
-
-				## Build a dict for each arguments in order to replace node in function body
-				assert(len(fun_args) == len(self.child_list))
-				for (i,args) in enumerate(fun_args):
-					local_env[args.value] = self.child_list[i].eval_node(env)
-					
+				
+				d = {}			
+				if any([len(env[child.value][0]) != len(child.child_list) for child in self.child_list if child.value in env]):				
+					#if function is passed as argument, then replace node, build the tree and evaluate the expression			
+					for (i,args) in enumerate(fun_args):
+						d[args.value] = self.child_list[i].value 
+				else:
+					## Build a dict for each arguments in order to replace node in function body
+					assert(len(fun_args) == len(self.child_list))
+					for (i,args) in enumerate(fun_args):
+						local_env[args.value] = self.child_list[i].eval_node(env)
+						
 				for fun_b in fun_body:
+					if len(d) > 0:
+						fun_b = fun_b.replace_node(d)
 					result = fun_b.eval_node(local_env)
 				return result
 

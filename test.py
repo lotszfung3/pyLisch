@@ -67,7 +67,7 @@ class TestDefine(unittest.TestCase):
 		(fact 4)
 		'''
 		self.assertEqual(next(Program(string).run()),24)
-	"""def test_func_as_args(self):
+	def test_func_as_args(self):
 		string='''
 			(define (f x) (+ x x))
 			(define (g x) (* x x))
@@ -75,7 +75,7 @@ class TestDefine(unittest.TestCase):
 			(ff f g 3)
 		'''
 		self.assertEqual(next(Program(string).run()),18)
-	"""
+	
 	
 class TestUtil(unittest.TestCase):
 	def test_strange_brackets_indent(self):
