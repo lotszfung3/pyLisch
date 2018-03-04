@@ -1,17 +1,18 @@
-from pyLisch import node
+from pyLisch.parser import Parser
 from pyLisch.program import Program
 
-programStr='''
+s = '''
 
-(define (f x) (+ x x))
-(define (g x) (* x x))
-(define (ff f g x) (f (g x)))
-(ff f g 3)
+(define f (lambda(x) (+ 1 x)))
+(f 3)
 '''
 
-program=Program(programStr)
+'''
+p = Parser(s)
+print(p.parse_program())
+'''
 
-for i in program.run():
-	print(i)
-
-
+p = Program(s)
+for i in p.run():
+	if i is not None:
+		print(i)

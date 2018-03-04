@@ -1,7 +1,6 @@
-from pyLisch.utils import split_str_to_list
 from pyLisch.SymbolTable import SymbolTable
 operators=["+","*","-","=", "<", ">", "<=", ">=", "and", "or", "not"]
-keywords = [ "if", "define"]
+keywords = [ "if", "define", "lambda"]
 
 class Node:
 	def __init__(self,value):#
@@ -29,6 +28,7 @@ class Node:
 			return KeyNode(value)
 		else:
 			return Node(value)
+	'''
 	def buildTree(string):
 		if (" " not in string):
 			node=Node.buildNode(string)
@@ -38,20 +38,18 @@ class Node:
 		for substr in str_list[1:]:
 			temp_node.add_child(Node.buildTree(substr))
 		return temp_node
-	
-	def copy(self):
-		new_node = Node.buildNode(str(self.value))
-		for child in self.child_list:
-			new_node.child_list.append(child.copy())
-		return new_node
-	
+	'''
 	def replace_node(self,env):	
 		if self.value in env:
+			## If self.value is a defined function or constant,
+			## change the node value and change the node type if necessary
 			new_node = Node.buildNode(str(env[self.value]))
 			new_node.child_list = self.child_list
 		else:
-			new_node = self.copy()
+			## Otherwise, node value remains unchanged
+			new_node = self
 		
+		## Replace recursively for every child of self 
 		for i, child in enumerate(self.child_list):
 			new_node.child_list[i] = child.replace_node(env)
 		
@@ -73,7 +71,6 @@ class Node:
 						d[args.value] = self.child_list[i].value 
 				else:
 					## Build a dict for each arguments in order to replace node in function body
-					assert(len(fun_args) == len(self.child_list))
 					for (i,args) in enumerate(fun_args):
 						local_env[args.value] = self.child_list[i].eval_node(env)
 						
@@ -98,6 +95,8 @@ class KeyNode(Node):
 				return self.child_list[2].eval_node(env)
 		elif self.value == 'define':
 			env[self.child_list[0].value]=(self.child_list[0].child_list,self.child_list[1:])
+		elif self.value == 'lambda':
+			return
 			
 	
 	def isValidNode(string):

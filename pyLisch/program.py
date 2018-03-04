@@ -1,16 +1,13 @@
 from pyLisch.node import Node,PrimNode,OperNode
-from pyLisch.utils import split_str_to_list
 from pyLisch.SymbolTable import SymbolTable
+from pyLisch.parser import Parser
 
 
 class Program:
 	def __init__(self,string):
-		self.eval_list=[]
-		self.def_list=[]
+		self.parser = Parser(string)
+		self.eval_list= self.parser.parse_program()
 		self.global_table = SymbolTable()
-		for substr in split_str_to_list(string):
-			node=Node.buildTree(substr)
-			self.eval_list.append(node)
 
 			
 	def run(self):

@@ -1,0 +1,34 @@
+A SUBSET OF THE GRAMMAR FOR SCHEME
+
+### Programs
+<program> -> <form>*
+<form> -> <definition> | <expression>
+
+
+### Definitions
+<definition> -> <variable definition>
+<variable definition> -> (define <variable> <expression>) | (define (<variable> <variable>*) <body>)
+<variable> -> <identifier>
+<body> -> <definition>* <expression>+
+
+
+### Expressions
+<expression> -> <constant> | <variable> | (if <expression> <expression> <expression>) | (if <expression> <expression>) | (lambda <formals> <body>) | <application>
+<constant> -> <boolean> | <number>
+<formals> -> <variable> | (<variable>*)
+<application> -> (<expression> <expression>*)
+
+
+###Identifiers
+<identifier> -> <initial><subsequent>* | + | - | ...
+<initial> -> <letter> | ! | $ | % | & | * | / | : | < | = | > | ? | ~ | _ | ^
+<subsequent> -> <initial> | <digit> | . | + | -
+<letter> -> a | b | ... | z
+<digit> -> 0 | 1 | ... | 9
+
+
+### Data
+<datum> -> <boolean> | <number> | <symbol>
+<boolean> -> #t | #f
+<number> -> <digit>
+<symbol> -> <identifier>

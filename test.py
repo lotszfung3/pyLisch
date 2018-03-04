@@ -76,7 +76,7 @@ class TestDefine(unittest.TestCase):
 		'''
 		self.assertEqual(next(Program(string).run()),18)
 	
-	
+"""
 class TestUtil(unittest.TestCase):
 	def test_strange_brackets_indent(self):
 		string='''
@@ -84,5 +84,6 @@ class TestUtil(unittest.TestCase):
 		(square     (3))
 		'''
 		self.assertEqual(next(Program(string).run()),9)
+"""
 if __name__=="__main__":
 	unittest.main()
